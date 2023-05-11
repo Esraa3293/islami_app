@@ -9,6 +9,8 @@ class SebhaTab extends StatefulWidget {
 
 class _SebhaTabState extends State<SebhaTab> {
   int count = 0;
+  int zekr = 0;
+  String text = "سبحان الله";
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,23 @@ class _SebhaTabState extends State<SebhaTab> {
                   setState(() {});
                   if (count == 34) {
                     count = 0;
+                    zekr++;
+                    switch (zekr) {
+                      case 1:
+                        text = "الحمد لله";
+                        break;
+                      case 2:
+                        text = "لا إله إلا الله";
+                        break;
+                      case 3:
+                        text = "الله أكبر";
+                        break;
+                      default:
+                        text = "سبحان الله";
+                        if (zekr == 3) {
+                          zekr = 0;
+                        }
+                    }
                   }
                 },
                 child: Image.asset("assets/images/sebha_img.png")),
@@ -38,7 +57,7 @@ class _SebhaTabState extends State<SebhaTab> {
               ),
               onPressed: () {},
               child: Text(
-                "سبحان الله",
+                text,
                 style: TextStyle(color: Colors.white),
               ),
             )

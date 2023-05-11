@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:islami/hadeth_content.dart';
 import 'package:islami/home_screen.dart';
 import 'package:islami/my_theme.dart';
@@ -14,10 +16,21 @@ class MyApplication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      //locale: Locale("ar"),
       themeMode: ThemeMode.light,
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,
-      debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
