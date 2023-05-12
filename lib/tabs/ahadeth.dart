@@ -1,90 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:islami/hadethModel.dart';
 import 'package:islami/hadeth_content.dart';
+import 'package:islami/my_theme.dart';
+import 'package:islami/providers/ahadeth_provider.dart';
+import 'package:provider/provider.dart';
 
-class AhadethTab extends StatefulWidget {
-  @override
-  State<AhadethTab> createState() => _AhadethTabState();
-}
-
-class _AhadethTabState extends State<AhadethTab> {
-  List<HadethModel> allAhadeth = [];
-
+class AhadethTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (allAhadeth.isEmpty) {
-      loadAhadethFile();
-    }
-    return Center(
-      child: Column(
-        children: [
-          Image.asset("assets/images/basmala.png"),
-          Divider(
-            thickness: 2,
-            color: Theme.of(context).primaryColor,
-          ),
-          Text(
-            AppLocalizations.of(context)!.ahadeth,
-            style: GoogleFonts.elMessiri(
-                fontSize: 25, fontWeight: FontWeight.w500),
-          ),
-          Divider(
-            thickness: 2,
-            color: Theme.of(context).primaryColor,
-          ),
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(
-                thickness: 1,
-                color: Theme.of(context).primaryColor,
-                indent: 35,
-                endIndent: 35,
+    return ChangeNotifierProvider(
+      create: (context) => AhadethProvider()..loadAhadethFile(),
+      builder: (context, child) {
+        var provider = Provider.of<AhadethProvider>(context);
+        return Center(
+          child: Column(
+            children: [
+              Image.asset("assets/images/basmala.png"),
+              Divider(
+                thickness: 2,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Theme.of(context).primaryColor
+                    : MyThemeData.yellowColor,
               ),
-              itemBuilder: (context, index) => InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, HadethContent.routeName,
-                      arguments: allAhadeth[index]);
-                },
-                child: Text(
-                  allAhadeth[index].title,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                      fontSize: 25, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.ahadeth,
+                style: GoogleFonts.elMessiri(
+                    fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+              Divider(
+                thickness: 2,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Theme.of(context).primaryColor
+                    : MyThemeData.yellowColor,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                    thickness: 1,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Theme.of(context).primaryColor
+                        : MyThemeData.yellowColor,
+                    indent: 35,
+                    endIndent: 35,
+                  ),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, HadethContent.routeName,
+                          arguments: provider.allAhadeth[index]);
+                    },
+                    child: Text(
+                      provider.allAhadeth[index].title,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  itemCount: provider.allAhadeth.length,
                 ),
               ),
-              itemCount: allAhadeth.length,
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
-  }
-
-  void loadAhadethFile() {
-    rootBundle.loadString("assets/files/ahadeth.txt").then((value) {
-      List<String> ahadeth = value.split("#");
-      for (int i = 0; i < ahadeth.length; i++) {
-        int lastIndex = ahadeth[i].trim().indexOf("\n");
-        String title = ahadeth[i].trim().substring(0, lastIndex);
-        String content = ahadeth[i].trim().substring(lastIndex + 1);
-        HadethModel hadethModel = HadethModel(title, content);
-        allAhadeth.add(hadethModel);
-        setState(() {});
-      }
-      /*for (int i = 0; i < ahadeth.length; i++) {
-        List<String> lines = ahadeth[i].trim().split("\n");
-        String title = lines[0];
-        print(title);
-        lines.removeAt(0);
-        List<String> content = lines;
-        HadethModel hadethModel = HadethModel(title, content);
-        allAhadeth.add(hadethModel);
-      }*/
-    }).catchError((error) {
-      print(error);
-    });
   }
 }

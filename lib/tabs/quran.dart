@@ -301,8 +301,7 @@ class QuranTab extends StatelessWidget {
                     ),
                     Text(
                       AppLocalizations.of(context)!.ayat_numbers,
-                      style: GoogleFonts.elMessiri(
-                          fontSize: 25, fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Divider(
                       thickness: 2,
