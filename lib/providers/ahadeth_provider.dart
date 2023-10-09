@@ -14,19 +14,21 @@ class AhadethProvider extends ChangeNotifier {
         String content = ahadeth[i].trim().substring(lastIndex + 1);
         HadethModel hadethModel = HadethModel(title, content);
         allAhadeth.add(hadethModel);
+        notifyListeners();
       }
-      /*for (int i = 0; i < ahadeth.length; i++) {
-        List<String> lines = ahadeth[i].trim().split("\n");
-        String title = lines[0];
-        print(title);
-        lines.removeAt(0);
-        List<String> content = lines;
-        HadethModel hadethModel = HadethModel(title, content);
-        allAhadeth.add(hadethModel);
-      }*/
+      //notifyListeners();
+      // for (int i = 0; i < ahadeth.length; i++) {
+      //   List<String> lines = ahadeth[i].trim().split("\n");
+      //   String title = lines[0];
+      //   print(title);
+      //   lines.removeAt(0);
+      //   List<String> content = lines;
+      //   HadethModel hadethModel = HadethModel(title, content);
+      //   allAhadeth.add(hadethModel);
+      // }
     }).catchError((error) {
       print(error);
     });
-    notifyListeners();
+    //notifyListeners();
   }
 }

@@ -13,6 +13,7 @@ class AhadethTab extends StatelessWidget {
       create: (context) => AhadethProvider()..loadAhadethFile(),
       builder: (context, child) {
         var provider = Provider.of<AhadethProvider>(context);
+        print(provider.allAhadeth.length.toString());
         return Center(
           child: Column(
             children: [

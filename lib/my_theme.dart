@@ -39,6 +39,11 @@ class MyThemeData {
           fontSize: 30,
           fontWeight: FontWeight.bold,
           color: Color(0xff242424),
+        ),
+        displaySmall: GoogleFonts.cairo(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff242424),
         )),
     appBarTheme: AppBarTheme(
         centerTitle: true,
