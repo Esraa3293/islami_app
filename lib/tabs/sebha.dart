@@ -9,6 +9,14 @@ class SebhaTab extends StatefulWidget {
 
 class _SebhaTabState extends State<SebhaTab> {
   int count = 0;
+  int zekr = 0;
+  double angle = 0;
+  List<String> azkar = [
+    "سبحان الله",
+    "الحمد لله",
+    "لا اله الا الله",
+    "الله أكبر"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -16,31 +24,51 @@ class _SebhaTabState extends State<SebhaTab> {
       body: Center(
         child: Column(
           children: [
-            InkWell(
-                onTap: () {
-                  count++;
-                  setState(() {});
-                  if (count == 34) {
-                    count = 0;
-                  }
-                },
-                child: Image.asset("assets/images/sebha_img.png")),
+            Image.asset("assets/images/head of seb7a.png"),
+            Transform.rotate(
+              angle: angle,
+              child: Image.asset("assets/images/body of seb7a.png"),
+            ),
             Text("عدد التسبيحات",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
                     ?.copyWith(fontSize: 25, fontWeight: FontWeight.w500)),
-            Text(count.toString()),
+            Container(
+                alignment: Alignment.center,
+                width: 70,
+                height: 80,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(.57),
+                    borderRadius: BorderRadius.circular(25)),
+                child: Text(
+                  count.toString(),
+                  style: Theme.of(context).textTheme.displaySmall,
+                )),
             ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Theme.of(context).primaryColor),
-              ),
-              onPressed: () {},
-              child: Text(
-                "سبحان الله",
-                style: TextStyle(color: Colors.white),
-              ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25))),
+              onPressed: () {
+                if (count == 33) {
+                  count = 0;
+                  if (zekr == 3) {
+                    zekr = 0;
+                  } else {
+                    zekr++;
+                  }
+                } else {
+                  count++;
+                }
+                angle += 20;
+                setState(() {});
+              },
+              child: Text(azkar[zekr],
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall
+                      ?.copyWith(color: Colors.white)),
             )
           ],
         ),
